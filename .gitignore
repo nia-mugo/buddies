@@ -62,3 +62,6 @@ typings/
 
 # app logs
 app.log
+
+#database config
+database.json

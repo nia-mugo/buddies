@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const winston = require('winston');
 const routes = require('./src/routes');
-
+const config = require('./config');
 
 const fileTransport = new winston.transports.File({
   level: 'info',
