@@ -38,8 +38,7 @@ function writeDbConfig() {
       throw new Error('missing NODE_ENV'); 
   }
 
-  fs.writeJson('database.json', {default: mySqlConfig});
-
+  fs.writeJsonSync('database.json', {default: mySqlConfig});
 }
 
 writeDbConfig();
