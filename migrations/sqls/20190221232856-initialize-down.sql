@@ -1,2 +1,1 @@
-drop table users;
-drop table buddies;
+/* Replace with your SQL commands */
