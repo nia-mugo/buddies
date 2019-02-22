@@ -59,9 +59,3 @@ typings/
 
 # next.js build output
 .next
-
-# app logs
-app.log
-
-#database config
-database.json
