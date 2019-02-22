@@ -1,0 +1,21 @@
+extends layout.pug
+block content
+  .d-flex.h-75.justify-content-center.align-items-center
+    .col-4
+      .h1.text-center Login
+      .card.p-4
+        #error
+          if(error)
+            .alert.alert-warning.text-center(role="alert") #{error}
+        form.mb-0(action="/login" method="post" enctype="application/x-www-form-urlencoded")
+          .form-group
+            label(for="emailAddress") Email Address
+            input.form-control(type="email" placeholder="Enter Email Address" name="email")
+          .form-group
+            label(for="password") Password
+            input.form-control(type="password" placeholder="Enter Password" name="password")
+          .pr-4.pl-4.text-center.mt-4
+            button.btn.btn-primary.w-100(type="submit") Login
+            a.btn.btn-link(href="/register") Don't have an account? 
+
+        
