@@ -10,6 +10,8 @@
     "migrate-staging": "NODE_ENV=staging node config.js && db-migrate up --env default",
     "migrate-prod": "NODE_ENV=production node config.js && db-migrate up --env default",
     "dev": "NODE_ENV=development nodemon index.js",
+    "staging": "NODE_ENV=staging node index.js",
+    "prod": "NODE_ENV=production node index.js",
     "test": "NODE_ENV=test mocha --exit"
   },
   "repository": {
