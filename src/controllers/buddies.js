@@ -38,9 +38,22 @@ async function getBuddies(req) {
   return await Buddy.getBuddyRequests(userId, email);
 }
 
+/**
+ * Accept Buddy Request
+ * 
+ * @param {object} req 
+ */
+async function acceptBuddyRequest(req) {
+  const { userId, email } = req.session.user;
+  const { id } = req.body;
+  await Buddy.acceptBuddyRequest(id, userId);
+  return await Buddy.getBuddyRequests(userId, email);
+}
+
 
 
 module.exports = {
   createBuddy,
-  getBuddies
+  getBuddies,
+  acceptBuddyRequest
 };
