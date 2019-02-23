@@ -60,6 +60,19 @@ router.post('/buddies', async (req, res) => {
   }
 });
 
+router.put('/buddies', async (req, res) => {
+  try {
+    const buddies =  await buddyController.acceptBuddyRequest(req, res);
+    res.json(buddies);
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return await renderIndex(req, res, error.toJson());
+    }
+    await renderIndex(req, res, {error: 'Oops an unknown error occurred'});
+  }
+  
+});
+
 async function renderIndex(req, res, error= {}) {
   const user = {user: req.session.user};
   const buddies = await buddyController.getBuddies(req);

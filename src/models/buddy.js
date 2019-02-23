@@ -74,10 +74,17 @@ class Buddy {
 
   /**
    * Accept a Buddy Request
-   *
+   * 
+   * @param {string} id
+   * @param {string} userId
    * @memberof Buddy
    */
-  async acceptBuddyRequest() {
+  static async acceptBuddyRequest(id, userId) {
+    await Promise.using(getConnection(), (connection) => {
+      return connection.queryAsync(`
+        UPDATE buddies SET buddyId = ?, status = ? where id = ?
+      `, [userId, 'accepted', parseInt(id)]);
+    });
 
   }
 

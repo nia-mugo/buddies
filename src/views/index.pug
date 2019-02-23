@@ -43,9 +43,6 @@ block content
               .col-md-8
                 p.mb-0 #{buddy.buddyName ? buddy.buddyName : 'Unknown User'}
                 small #{buddy.buddyEmail}
-            .row.no-gutters
-              .offset-8.col-md-4
-                button.btn.btn-primary.btn-sm Accept
       
       
 
@@ -66,8 +63,7 @@ block content
                 small #{buddy.buddyEmail}
             .row.no-gutters
               .offset-8.col-md-4
-                button.btn.btn-primary.btn-sm Accept
-
+                button.btn.btn-primary.btn-sm(onclick='acceptBuddy("' + buddy.id + '")') Accept
 
     .col-md-3
       //- Pending Buddy Requests //
@@ -84,7 +80,4 @@ block content
               .col-md-8
                 p.mb-0 #{buddy.buddyName ? buddy.buddyName : 'Unknown User'}
                 small #{buddy.buddyEmail}
-      
-
-
 
