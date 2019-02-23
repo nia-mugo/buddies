@@ -3,13 +3,15 @@
 const { Router } = require('express');
 
 const authController = require('../controllers/auth');
+const buddyController = require('../controllers/buddies');
+
 const { ApiError } = require('../helpers/errors');
 
 // eslint-disable-next-line new-cap
 const router = Router();
 
-router.get('', (req, res) => {
-  res.render('index');
+router.get('', async (req, res) => {
+  await renderIndex(req, res);
 });
 
 router.get('/login', (req, res) => {
@@ -45,5 +47,24 @@ router.post('/login', async (req, res) => {
     return res.status(500).json({error: 'Oops an unknown error occurred'});
   }
 });
+
+router.post('/buddies', async (req, res) => {
+  try {
+    await buddyController.createBuddy(req);
+    res.redirect('/');
+  } catch(error) {
+    if (error instanceof ApiError) {
+      return await renderIndex(req, res, error.toJson());
+    }
+    await renderIndex(req, res, {error: 'Oops an unknown error occurred'});
+  }
+});
+
+async function renderIndex(req, res, error= {}) {
+  const user = {user: req.session.user};
+  const buddies = await buddyController.getBuddies(req);
+  res.render('index', Object.assign({}, user, buddies, error));
+}
+
 
 module.exports = router;

@@ -58,6 +58,12 @@ async function authenticationMiddleWare(req, res, next) {
       res.redirect('/');  
     }
   }
+
+  if(req.path === '/logout') {
+    res.clearCookie('user_sid');  
+    res.redirect('/login');  
+  }
+  
   next();
 }
 

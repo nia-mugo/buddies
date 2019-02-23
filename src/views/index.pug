@@ -1,45 +1,52 @@
 extends layout.pug
 
 block content
+  .modal(tabindex="-1" role="dialog" id="addBuddyModal")
+    .modal-dialog(role="document")
+      .modal-content
+        .modal-header
+          h5.modal-title Create Buddy
+          button.close(type="button" data-dismiss="modal" aria-label="Close")
+            span(aria-hidden="true") &times;
+        .modal-body
+          form.mb-0(action="/buddies" method="post" enctype="application/x-www-form-urlencoded")
+            .form-group
+              label(for="email") Email Address
+              input.form-control(id="email" name="email" type="email" placeholder="enter buddy email")
+            .form-group
+              label(for="email") Message
+              input.form-control(id="message" name="message" type="text-area" placeholder="enter message (optional)" formtarget="_self")
+            button.btn.btn-primary.mr-auto(type="submit") Save Buddy
+  
+  #error
+    if(error)
+      .alert.alert-warning.text-center(role="alert") #{error}
   .row.mt-5
     .col-md-3.text-center 
       img(src="/images/user.png" width="100px" height="100px")
-      .h4.mt-1 {user.name}
-      .h6  {user.email}
+      .h4.mt-1 #{user.name}
+      .h6  #{user.email}
       .pt-2
-        button.btn.btn-primary.w-75(type="") Add Buddy
-        button.btn.btn-danger.w-75.mt-2(type="") Logout
+        button.btn.btn-primary.w-75(type=""  data-toggle="modal" data-target="#addBuddyModal") Add Buddy
+        a.btn.btn-danger.w-75.mt-2(href="/logout") Logout
     
     .col-md-3
       .card.bg-light
         .card-header.text-center My Buddies
       //- Buddies //
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
+      each buddy in myBuddies
+        .card.mt-1
+          .card-body
+            .row.no-gutters
+              .col-md-4
+                img(src="/images/user.png" width="50px" height="50px")
+              .col-md-8
+                p.mb-0 #{buddy.buddyName ? buddy.buddyName : 'Unknown User'}
+                small #{buddy.buddyEmail}
+            .row.no-gutters
+              .offset-8.col-md-4
+                button.btn.btn-primary.btn-sm Accept
       
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
-      
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
       
 
     .col-md-3
@@ -48,32 +55,18 @@ block content
       .card.bg-light
         .card-header.text-center Incoming Buddy Requests
 
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
-      
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
-      
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
+      each buddy in incomingBuddyRequests
+        .card.mt-1
+          .card-body
+            .row.no-gutters
+              .col-md-4
+                img(src="/images/user.png" width="50px" height="50px")
+              .col-md-8
+                p.mb-0 #{buddy.buddyName ? buddy.buddyName : 'Unknown User'}
+                small #{buddy.buddyEmail}
+            .row.no-gutters
+              .offset-8.col-md-4
+                button.btn.btn-primary.btn-sm Accept
 
 
     .col-md-3
@@ -82,32 +75,15 @@ block content
       .card.bg-light
         .card-header.text-center Outgoing Buddy Requests
       
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
-      
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
-      
-      .card.mt-1
-        .card-body
-          .row.no-gutters
-            .col-md-4
-              img(src="/images/user.png" width="50px" height="50px")
-            .col-md-8
-              p.mb-0 Buddy Name
-              small buddyemail@email.com
+      each buddy in outgoingBuddyRequests
+        .card.mt-1
+          .card-body
+            .row.no-gutters
+              .col-md-4
+                img(src="/images/user.png" width="50px" height="50px")
+              .col-md-8
+                p.mb-0 #{buddy.buddyName ? buddy.buddyName : 'Unknown User'}
+                small #{buddy.buddyEmail}
       
 
 
