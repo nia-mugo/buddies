@@ -55,12 +55,12 @@ async function login(req) {
     throw new BadRequest('email is required');
   }
 
-  if (!body.password || body.password.length < 6) {
+  if (!body.password || !body.password.length) {
     throw new BadRequest('password is required');
   }
   
   const { email, password } = req.body;
-  return User.login(email, password);
+  return await User.login(email, password);
 }
 
 module.exports = {

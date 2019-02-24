@@ -6,6 +6,14 @@ body
   nav.navbar.navbar-dark.bg-primary
     .container
       a.navbar-brand(href="#") BUDDIES
+    .toast(style="position: absolute; top: 50px; right: 30px;")
+      .toast-header
+        .box.mr-1(style="width: 15px; height: 15px; background:#F00; border-radius:1px;")
+        strong Error Message
+        button(type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="close")
+          span(aria-hidden="true") &times;
+      .toast-body
+        #error Error Message
   .container
     block content
   block foot

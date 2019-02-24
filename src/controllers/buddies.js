@@ -21,10 +21,9 @@ async function createBuddy(req) {
 
   const { userId } = req.session.user;
   const { email, message } = body;
-  let buddy = new Buddy(userId, email, message);
+  const buddy = new Buddy(userId, email, message);
   await buddy.createBuddyRequest();
-  buddy = buddy.toJson();
-  return buddy;
+  return buddy.toJson();;
 }
 
 /**

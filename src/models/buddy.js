@@ -55,11 +55,12 @@ class Buddy {
     const results = await Promise.using(getConnection(), (connection) => {
       return connection.queryAsync(
         `
-          SELECT buddies.*, users.name as buddyName FROM buddies 
-          LEFT JOIN users ON users.email = buddies.buddyEmail
-          WHERE buddies.userId = ? or buddies.buddyEmail = ? 
+        SELECT buddies.*, users.name as buddyName, users.email as buddyEmail FROM buddies 
+        LEFT JOIN users 
+        ON (users.email =  buddies.buddyEmail and buddies.buddyEmail != ? ) or (users.id = buddies.userId and buddies.userId != ?)
+        WHERE (buddies.userId = ? or buddies.buddyEmail = ?) ;
         `, 
-      [userId, email]);
+      [email, userId, userId, email]);
     });
     const myBuddies = results.filter(buddy => buddy.status === 'accepted');
     const incomingBuddyRequests = results.filter(buddy => buddy.userId !== userId && buddy.status === 'pending');

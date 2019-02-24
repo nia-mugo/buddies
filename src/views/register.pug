@@ -4,10 +4,7 @@ block content
     .col-4
       .h1.text-center Register
       .card.p-4
-        #error
-          if(error)
-            .alert.alert-warning.text-center(role="alert") #{error}
-        form.mb-0(method="post" action="/register")
+        form.mb-0(method="post" action="/register" id="register")
           .form-group
             label(for="") Full Name
             input.form-control(type="text" placeholder="Enter Full Name" name="name")
