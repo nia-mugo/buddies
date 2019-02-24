@@ -9,7 +9,7 @@ block content
           button.close(type="button" data-dismiss="modal" aria-label="Close")
             span(aria-hidden="true") &times;
         .modal-body
-          form.mb-0(action="/buddies" method="post" enctype="application/x-www-form-urlencoded")
+          form.mb-0(action="/buddies" method="post" enctype="application/x-www-form-urlencoded" id="buddies")
             .form-group
               label(for="email") Email Address
               input.form-control(id="email" name="email" type="email" placeholder="enter buddy email")

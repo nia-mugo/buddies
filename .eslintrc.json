@@ -11,7 +11,7 @@
       "ecmaVersion": 8
     },
     "rules": {
-      "mocha/no-exclusive-tests": "error",
+      "mocha/no-exclusive-tests": "warn",
       "require-jsdoc": "off",
       "no-invalid-this": "off",
       "strict": ["error", "global"]

@@ -22,16 +22,17 @@ router.get('/register', (req, res) => {
   res.render('register');
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
   try {
     const userData = await authController.register(req);
     req.session.user = userData;
-    res.redirect(301, '/');
+    return res.status(201).json(userData);
   } catch (error) {
     if (error instanceof ApiError) {
-      return res.render('register', error.toJson());
+      return res.status(error.statusCode).json(error.toJson());
+    } else {
+      return res.status(500).json({error: 'Oops an unknown error occurred'});
     }
-    return res.status(500).json({error: 'Oops an unknown error occurred'});
   }
 });
 
@@ -39,10 +40,10 @@ router.post('/login', async (req, res) => {
   try {
     const userData = await authController.login(req);
     req.session.user = userData;
-    res.redirect(301, '/');
+    res.status(200).json(userData);
   } catch (error) {
     if (error instanceof ApiError) {
-      return res.render('login', error.toJson());
+      return res.status(error.statusCode).json(error.toJson());
     }
     return res.status(500).json({error: 'Oops an unknown error occurred'});
   }
@@ -50,27 +51,38 @@ router.post('/login', async (req, res) => {
 
 router.post('/buddies', async (req, res) => {
   try {
-    await buddyController.createBuddy(req);
-    res.redirect('/');
+    const data = await buddyController.createBuddy(req);
+    res.status(201).json(data);
   } catch(error) {
     if (error instanceof ApiError) {
-      return await renderIndex(req, res, error.toJson());
+      return res.status(error.statusCode).json(error.toJson());
     }
-    await renderIndex(req, res, {error: 'Oops an unknown error occurred'});
+    return res.status(500).json({error: 'Oops an unknown error occurred'});
   }
 });
 
 router.put('/buddies', async (req, res) => {
   try {
-    const buddies =  await buddyController.acceptBuddyRequest(req, res);
-    res.json(buddies);
+    const data = await buddyController.acceptBuddyRequest(req, res);
+    res.status(200).json(data);
   } catch (error) {
     if (error instanceof ApiError) {
-      return await renderIndex(req, res, error.toJson());
+      return res.status(error.statusCode).json(error.toJson());
     }
-    await renderIndex(req, res, {error: 'Oops an unknown error occurred'});
+    return res.status(500).json({error: 'Oops an unknown error occurred'});
   }
-  
+});
+
+router.get('/buddies', async (req, res) => {
+  try {
+    const data = await buddyController.getBuddies(req);
+    res.status(200).json(data);
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error.toJson());
+    }
+    return res.status(500).json({error: 'Oops an unknown error occurred'});
+  }
 });
 
 async function renderIndex(req, res, error= {}) {

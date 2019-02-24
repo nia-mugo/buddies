@@ -7,7 +7,7 @@
  * @return {boolean}
  */
 function isProtectedRoute(req) {
-  const protectedRoutes = ['/'];
+  const protectedRoutes = ['/', '/buddies'];
   for (const route of protectedRoutes) {
     if (route === req.path) {
       return true;
@@ -44,26 +44,24 @@ function isPublicRoute(req) {
 async function authenticationMiddleWare(req, res, next) {
   if(isProtectedRoute(req)) {
     if(!req.cookies.user_sid) {
-      res.redirect('/login'); 
-    }
-
-    if (req.cookies.user_sid && !req.session.user) {
+      return res.redirect('/login'); 
+    } else if (req.cookies.user_sid && !req.session.user) {
       res.clearCookie('user_sid');  
-      res.redirect('/login');  
+      return res.redirect('/login');  
     }
   }
 
   if(isPublicRoute(req)) {
     if (req.cookies.user_sid && req.session.user) { 
-      res.redirect('/');  
+      return res.redirect('/');  
     }
   }
 
   if(req.path === '/logout') {
     res.clearCookie('user_sid');  
-    res.redirect('/login');  
+    return res.redirect('/login');  
   }
-  
+
   next();
 }
 
